@@ -2,7 +2,6 @@
 
 <!-- .htaccess file code -->
 
-
 <!--file_extension hide like .php hide-->
 
 RewriteEngine On
@@ -40,6 +39,22 @@ define('DISALLOW_FILE_MODS',false);
 wp-config.php
 define( 'WP_DEBUG', true );
 
+<!--Increase the Maximum File Upload Size  -->
+ PHP.INI 
+upload_max_filesize = 256M
+post_max_size = 256M
+max_execution_time = 300
+
+functions.php
+@ini_set( 'upload_max_size' , '256M' );
+@ini_set( 'post_max_size', '256M');
+@ini_set( 'max_execution_time', '300' );
+
+.htaccess
+php_value upload_max_filesize 256M
+php_value post_max_size 256M
+php_value max_execution_time 300
+php_value max_input_time 300
 
 
 <!-- create new user using code by function file -->
