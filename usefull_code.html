@@ -1,0 +1,115 @@
+<!--usefull code -->
+
+<!-- .htaccess file code -->
+
+
+<!--file_extension hide like .php hide-->
+
+RewriteEngine On
+RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+RewriteRule (.*) /%1 [R=301,L]  
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+
+<!-- https redirection -->
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+<!--www to none _www_redirection  -->
+RewriteEngine On
+RewriteCond %{HTTP_HOST} www.prontosys.com
+RewriteRule (.*) http://prontosys.com/$1 [R=301,L]
+
+<!--add htaccess file code denial all user -->
+
+<FilesMatch >
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+<!---css missing  wordpress webiste , add code------->
+wp-config.php
+define('CONCATENATE_SCRIPTS', false);
+
+<!--Add new plugin theme not showing  -->
+wp-config.php
+define('DISALLOW_FILE_MODS',false);
+
+<!-- show and hide wp error file (true,false) -->
+wp-config.php
+define( 'WP_DEBUG', true );
+
+
+
+<!-- create new user using code by function file -->
+function new_admin_account(){
+    $user = 'Arun';
+    $pass = 'Arun@#$%1234';
+    $email = 'arun.kumar@prontosys.com';
+    if ( !username_exists( $user ) && !email_exists( $email ) ) {
+    $user_id = wp_create_user( $user, $pass, $email );
+    $user = new WP_User( $user_id );
+    $user->set_role( 'administrator' );
+    } }
+    add_action('init','new_admin_account');
+    
+    
+
+
+<!-- plugin developmemnt tutorial link -->
+
+https://developer.wordpress.org/plugins/intro/
+
+https://developer.wordpress.org/plugins/
+
+https://wpbuffs.com/wordpress-plugin-development/
+
+https://wpshout.com/wordpress-plugin-development-tutorial/
+
+https://code.tutsplus.com/courses/introduction-to-wordpress-plugin-development
+
+https://www.youtube.com/watch?v=hbJiwm5YL5Q
+
+https://wordpress.org/plugins/forminator/
+
+
+<!----------------Used click email whatsapp etc------------------------>
+
+<div>
+    <a href="https://api.whatsapp.com/send?phone=+971501215342" target="_blank">
+    <i class="fa fa-whatsapp" style="position:fixed;
+      width:60px;
+      height:60px;
+      bottom:150px;
+      right:10px;
+      background-color:#45C556;
+      color:#FFF;
+      border-radius:50px;
+      font-size:45px;
+     text-align:center;
+    padding-top:18px;								   
+    box-shadow: 2px 2px 3px #999;
+    z-index:100;"></i></a></div>
+    
+    <div>
+    <a href="mailto:help@a2zlegaldebts.com">
+    <i class="fa fa-envelope-o" style="position:fixed;
+      width:60px;
+      height:60px;
+      bottom:80px;
+      right:10px;
+      background-color:#AB2A32;
+      color:#FFF;
+      border-radius:50px;
+      font-size:35px;
+     text-align:center;
+    padding-top:15px;								   
+    box-shadow: 2px 2px 3px #999;
+    z-index:101;"></i></a></div>
+    
+
+
+
+
+
