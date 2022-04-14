@@ -40,6 +40,12 @@ wp-config.php
 define( 'WP_DEBUG', true );
 
 <!--Increase the Maximum File Upload Size  -->
+.htaccess -> best method
+php_value upload_max_filesize 256M
+php_value post_max_size 256M
+php_value max_execution_time 300
+php_value max_input_time 300
+
  PHP.INI 
 upload_max_filesize = 256M
 post_max_size = 256M
@@ -50,11 +56,6 @@ functions.php
 @ini_set( 'post_max_size', '256M');
 @ini_set( 'max_execution_time', '300' );
 
-.htaccess
-php_value upload_max_filesize 256M
-php_value post_max_size 256M
-php_value max_execution_time 300
-php_value max_input_time 300
 
 
 <!-- create new user using code by function file -->
