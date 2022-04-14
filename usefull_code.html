@@ -22,6 +22,12 @@ RewriteRule (.*) http://prontosys.com/$1 [R=301,L]
 
 <!--add htaccess file code denial all user -->
 
+<Files *.php>
+deny from all
+</Files>
+
+or
+
 <FilesMatch >
     Order Allow,Deny
     Allow from all
