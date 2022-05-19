@@ -129,9 +129,18 @@ https://wordpress.org/plugins/forminator/
     padding-top:15px;								   
     box-shadow: 2px 2px 3px #999;
     z-index:101;"></i></a></div>
-    
 
 
+<!---------------remove theme show option-------------------->
+
+function wpdocs_remove_menus(){
+  remove_menu_page( 'edit-comments.php' );
+  remove_submenu_page( 'themes.php', 'themes.php');
+  remove_menu_page( 'tools.php' );
+  remove_menu_page( 'options-general.php' );
+  remove_menu_page('edit.php?post_type=acf-field-group');
+}
+add_action( 'admin_menu', 'wpdocs_remove_menus' );
 
 
 
