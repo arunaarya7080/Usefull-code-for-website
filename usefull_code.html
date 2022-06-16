@@ -280,7 +280,7 @@ add_action( 'init', 'New_Walker_menu_custom_wp' );
 				'items_wrap'           => '<ul id="ul_add_id %1$s" class="ul_add_class %2$s">%3$s</ul>',
 				'item_spacing'         => 'preserve',
 				'depth'                => 2,
-				'walker'               => 'new custom_walker_wp_nav_menu_walker()',
+				'walker'               => new custom_walker_wp_nav_menu_walker()
 				
             ));
             ?>
