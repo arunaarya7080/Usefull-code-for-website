@@ -315,8 +315,11 @@ add_action( 'init', 'New_Walker_menu_custom_wp' );
 <!-- wordpress menu header Menu start -->
 
    
+<!-- wordpress wp admin logo change -->
 
-
-
+function my_login_logo() {
+  $imageURL = get_template_directory_uri()."/images/admin/logo.png";
+  echo '<style type="text/css">body.login div#login h1 a { background-image: url('.$imageURL.'); width:100%; background-size: 100%; height: 100px; } </style>';
+}
 
 
