@@ -334,3 +334,110 @@ function rwp_login_page_custom_link() {
 
 
 
+<?php /* Template Name: Gallery */ ?>
+<?php get_header(); ?>
+<!--body part start-->
+
+	<section id="aboutus-content">
+			<div class="inner-content row">
+				<div class="left-bar col-xs-12 col-sm-12" style="min-height:auto!important;">
+					<article>
+    						<header style="text-align: center;">
+    							<h1 style="border-bottom: 2px solid #398439; padding:0 10px 10px 10px; max-width: 160px; margin: auto;"><?php the_title();  ?></h1>
+    						</header>
+			
+			                     <?php 
+                                 $args_cat = array(
+                                                 "post_type" => "photogallery",
+                                        		 'post_status' => 'publish',
+                                        		 'taxonomy' => 'cat-photos',
+                                        		 'hide_empty' => 1,
+                                                   );
+                                $cats = get_terms($args_cat); 
+                               //$cats = get_categories($args_cat); 
+                               //echo '<pre>'; print_r($cats); echo '</pre>';  ?>
+                               
+                              <ul class="nav nav-tabs" id="mynabs">
+                                 <li class="active"><a data-toggle="tab" href="#all">All</a></li>
+                                 <?php
+                                 foreach($cats as $cat_data){ ?> 
+                                  <li><a data-toggle="tab" href="#<?php echo $cat_data->name;?>"><?php echo $cat_data->name;?></a></li>  
+                                  <?php } ?>
+                              </ul>
+                            
+                          <div class="tab-content mycont">
+                          <!--tab item start-->
+                              <!--tab-->
+                              <div id="all" class="tab-pane fade in active">
+                                <div class="row row-eq-height">
+                                         <!-- Single Item -->
+                                               <?php
+                                                $query_gallery = new WP_Query(array(
+                                                 "post_type" => "photogallery",
+                                            	 'post_status' => 'publish',
+                                            	     ));
+                                                if ( $query_gallery->have_posts() ) :
+                                            	while ( $query_gallery->have_posts() ) : $query_gallery->the_post(); 	
+                                                ?>
+                                                    <!---->
+                                                       <div class="col-md-4">
+                                                         <div class="gall-imgbox">
+                                                          <img src="<?php echo get_the_post_thumbnail_url(); ?>" width="100%">
+                                                          <h1><?php echo get_the_title(); ?></h1>
+                                                          <p><?php echo get_the_excerpt(); ?></p>
+                                                         </div>
+                                                       </div>
+                                                    <!---->
+                                                <?php endwhile; endif; ?>
+                                 </div>
+                              </div>
+                          
+                              <!--tab-->
+                                         <?php
+                                         foreach($cats as $cat_data){ ?> 
+                                         <!-- Single Item -->
+                                          <div id="<?php echo $cat_data->name;?>" class="tab-pane">
+                                           <div class="row row-eq-height">
+                                               <?php
+                                                $query_gallery = new WP_Query(array(
+                                                 "post_type" => "photogallery",
+                                            	 'post_status' => 'publish',
+                                            	 'tax_query' =>array(
+                                                    	 array('taxonomy' => 'cat-photos',
+                                                    	        'field'=> 'term_id',
+                                                    	        'terms'=> $cat_data->term_id)
+                                                    	        ),
+                                            	     ));
+
+                                                if ( $query_gallery->have_posts() ) :
+                                            	while ( $query_gallery->have_posts() ) : $query_gallery->the_post(); 	
+                                                ?>
+                                                    <!---->
+                                                       <div class="col-md-4">
+                                                         <div class="gall-imgbox">
+                                                          <img src="<?php echo get_the_post_thumbnail_url(); ?>" width="100%">
+                                                          <h1><?php echo get_the_title(); ?></h1>
+                                                          <p><?php echo get_the_excerpt(); ?></p>
+                                                         </div>
+                                                       </div>
+                                                    <!---->
+                                                <?php endwhile; endif; ?>
+                                                 </div>
+                                               </div>
+                                             <?php } ?>
+                                            
+                                         <!-- End Single Item -->
+                                 
+                          <!--tab-->
+                           
+                    <!--tab item end-->
+                       </div>
+                      
+					</article>
+				</div>
+			</div>
+		</section>
+	
+
+<!--body part end-->
+<?php get_footer(); ?>
