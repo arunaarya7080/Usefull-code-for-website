@@ -441,3 +441,30 @@ function rwp_login_page_custom_link() {
 
 <!--body part end-->
 <?php get_footer(); ?>
+	
+	
+  <?php 
+                    $images = get_field('gallery_image');
+                    if( $images ): ?>
+                      
+                            <?php foreach(array_slice($images,0,1) as $image ): 
+                            ?>
+                            
+                                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+                                    <a href="<?php echo $image['url']; ?>" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url(<?php echo $image['url']; ?>);"></a>
+                                    <figcaption itemprop="caption description">Image caption</figcaption>
+                                </figure>
+                                <?php  endforeach;
+                                foreach(array_slice($images,1,count($images)) as $image ): 
+                                ?>
+                                    
+                            
+                               <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                 <a href="<?php echo $image['url']; ?>" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url(<?php echo $image['url']; ?>);"></a>
+                                 <!--<figcaption itemprop="caption description">Image caption</figcaption>-->
+                                </figure>
+                            
+                            <?php  endforeach; ?>
+                       
+                    <?php endif; ?>
+                    	
