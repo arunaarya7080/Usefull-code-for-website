@@ -468,3 +468,112 @@ function rwp_login_page_custom_link() {
                        
                     <?php endif; ?>
                     	
+	
+	
+	
+	
+	
+	
+	
+<?php   //Custom Menu Add 
+// functions.php  Menu add css class
+
+// Custom wp_nav_menu walker 
+class my_custom_wp_nav_menu_walker extends Walker_Nav_menu
+{
+  private $current_item;
+  private $dropdown_menu_alignment_values = [];
+
+  function start_lvl(&$output, $depth = 0, $args = null)
+  {
+    $dropdown_menu_class[] = '';
+    foreach($this->current_item->classes as $class) {
+      if(in_array($class, $this->dropdown_menu_alignment_values)) {
+        $dropdown_menu_class[] = $class;
+      }
+    }
+    $indent = str_repeat("\t", $depth);//
+    $submenu = ($depth > 0) ? ' mysub-sub-menu' : '';//li-ul-li->ul only depth o to upper inside->ul class 
+    $output .= "\n$indent<ul class=\"mydropdown-menu$submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n"; //li->ul class | all li inside ul class 
+  }
+
+  function start_el(&$output, $item, $depth = 0, $args = null, $id = 0)
+  {
+    $this->current_item = $item;
+
+    $indent = ($depth) ? str_repeat("\t", $depth) : '';
+
+    $li_attributes = '';
+    $class_names = $value = '';
+
+    $classes = empty($item->classes) ? array() : (array) $item->classes;
+
+    $classes[] = ($args->walker->has_children) ? 'mydropdown' : '';//all has-children add class all li
+    $classes[] = 'mymenu-item';//add all li class
+    $classes[] = 'mymenu-item-' . $item->ID;//add all li class_in_id
+    if ($depth && $args->walker->has_children) {
+      $classes[] = 'mydropdown-nested';//li->ul->li class | nested children li class
+    }
+
+    $class_names =  join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+    $class_names = ' class="' . esc_attr($class_names) . '"';
+
+    $id = apply_filters('nav_menu_item_id', 'mymenu_item-' . $item->ID, $item, $args);//add all li id
+    $id = strlen($id) ? ' id="' . esc_attr($id) . '"' : '';
+
+    $output .= $indent . '<li ' . $id . $value . $class_names . $li_attributes . '>';
+
+    $attributes = !empty($item->attr_title) ? ' title="' . esc_attr($item->attr_title) . '"' : '';
+    $attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
+    $attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
+    $attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
+
+    $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current-post-ancestor", $item->classes, true)) ? 'active' : '';
+	//current active link class
+    $nav_link_class = ( $depth > 0 ) ? 'mymenu_dropdown-link ' : 'mymenu-link ';//dropdown->li_a->class : all upper li_a->class | (anchor class)
+    $attributes .= ( $args->walker->has_children ) ? ' class="'. $nav_link_class . $active_class . ' " ' : ' class="'. $nav_link_class . $active_class . '"';
+    //Requirement has-children attributes add->$active_class . ' dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : 
+    $item_output = $args->before;
+    $item_output .= '<a' . $attributes . '>';
+    $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+    $item_output .= '</a>';
+    $item_output .= $args->after;
+
+    $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+  }
+}
+
+
+// register a new menu
+function register_my_menus() {
+	register_nav_menus(
+	array(
+	 'main_menu' => __( 'Main Menu' ),
+	 'Footer-menu' => __( 'Footer Menu' )
+	 )
+	 );
+	}
+	add_action( 'init', 'register_my_menus' );
+?>
+
+
+
+<!-- header.php for display menu code -->
+<?php
+
+wp_nav_menu(array(
+	'theme_location' => 'main_menu',
+	'container' => false,
+	'menu_class' => 'mymain-menu',
+	'menu_id' => 'mymain_menu',
+	'fallback_cb' => '__return_false',
+	'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+	'depth' => 2,
+	'walker' => new my_custom_wp_nav_menu_walker()
+));
+
+?>
+
+
+	
+	
